@@ -1,0 +1,56 @@
+image: composer:8.3
+
+cache:
+  paths:
+    - vendor/
+
+before_script:
+  - cp env-ci .env
+  - composer install
+
+services:
+  - mysql:5.7
+
+variables:
+  MYSQL_DATABASE: "ci4_services_test"
+  MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+
+stages:
+  - build
+  - test
+  - pkg
+  - deploy
+
+build-job:
+  stage: build
+  script:
+    - echo "Building"
+    - echo "Nothing to do ... "
+
+unit-test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - echo "Running unit tests... This will take about 60 seconds."
+    - vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-text --colors=never
+      # - echo "Code coverage is 90%"
+
+lint-test-job:
+  stage: test
+  allow_failure: true
+  script:
+    - echo "Linting code... This will take about 10 seconds."
+
+package-job:
+  stage: pkg
+  script:
+  - composer install --no-dev
+  - composer dump-autoload
+  - tar cvzf codeigniter4-services-$(git rev-parse HEAD).tar.gz src composer.lock composer.json
+
+deploy-job:      # This job runs in the deploy stage.
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  environment: production
+  rules:
+    - if: $CI_COMMIT_BRANCH == "production"
+  script:
+    - echo "Don't know how to deploy"
