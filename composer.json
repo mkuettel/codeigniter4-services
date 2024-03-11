@@ -1,0 +1,28 @@
+{
+    "name": "mkuettel/codeigniter4-services",
+    "description": "Service Layer Library for CodeIgniter 4",
+    "type": "library",
+    "require": {
+        "php": "^8.0",
+        "tatter/relations": "^2.1",
+        "codeigniter4/framework": "^4.0"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "phpunit/phpunit": "^10.0",
+        "codeigniter/phpstan-codeigniter": "^1.4",
+        "mockery/mockery": "^1.6"
+    },
+    "license": "LGPL",
+    "autoload": {
+        "psr-4": {
+            "MKU\\Services\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Moritz Küttel",
+            "email": "moritz_kuettel+composer_ci4services@fastmail.com"
+        }
+    ]
+}
