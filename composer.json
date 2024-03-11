@@ -13,7 +13,7 @@
         "codeigniter/phpstan-codeigniter": "^1.4",
         "mockery/mockery": "^1.6"
     },
-    "license": "LGPL",
+    "license": "LGPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "MKU\\Services\\": "src/"
