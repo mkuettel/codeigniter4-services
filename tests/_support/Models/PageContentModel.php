@@ -17,7 +17,7 @@ final class PageContentModel extends ServiceModel {
 	protected $table = 'page_contents';
 
     protected $with = [
-        'page'
+        'pages'
     ];
 
 	protected $allowedFields = [

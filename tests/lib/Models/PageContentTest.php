@@ -14,9 +14,10 @@ class PageContentTest extends CIUnitTestCase
     use DatabaseTestTrait;
 
     protected $migrate = true;
-    protected $migrateOnce = true;
 
-    protected $namespace = null;
+    protected $namespace = 'Tests\Support';
+
+    protected $seed = \Tests\Support\Database\Seeds\Page::class;
 
     private ?PageContentModel $model;
 
@@ -39,7 +40,7 @@ class PageContentTest extends CIUnitTestCase
     public function newPageContent(): PageContent {
         return new PageContent([
             'page_id' => $this->page->id,
-            'lang' => 'en',
+            'language' => 'en',
             'title' => 'TestPageContent',
             'slug' => 'test-page_content',
             'description' => 'A Test page_content to test the PageContentModel class',

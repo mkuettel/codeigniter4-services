@@ -78,9 +78,6 @@ class TransactionServiceTest extends CIUnitTestCase {
         $this->assertEquals($id, $this->pages->find($id)->id);
     }
 
-    public function testTransactionNests(): void {
-    }
-
     public function testTransactThrows(): void {
         $this->expectException(TransactionException::class);
         $this->expectExceptionMessage("Exception during transaction, rolled back");
@@ -110,6 +107,9 @@ class TransactionServiceTest extends CIUnitTestCase {
         }
     }
 
-    public function testTransactionIsolation(): void {
-    }
+//    public function testTransactionNests(): void {
+//    }
+
+//    public function testTransactionIsolation(): void {
+//    }
 }
