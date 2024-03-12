@@ -17,7 +17,7 @@ class Services extends BaseService {
      */
     public static function pages(TransactionService $transactions = null, PageModel $page_model = null, PageContentModel $page_content_model = null, bool $getShared = true): PageService {
         if ($getShared) {
-            return self::getSharedInstance('pages', $transactions, $page_model, $page_content_model, $db);
+            return self::getSharedInstance('pages', $transactions, $page_model, $page_content_model);
         }
 
         return new PageService(
