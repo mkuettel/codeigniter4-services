@@ -14,6 +14,11 @@ class TransactionService implements Service {
         $this->db = $db;
     }
 
+
+    public function shortname(): string {
+        return 'transaction';
+    }
+
     /**
      * @param \Closure $func
      * @param bool $testMode
@@ -35,5 +40,4 @@ class TransactionService implements Service {
 
         return $result;
     }
-
 }
