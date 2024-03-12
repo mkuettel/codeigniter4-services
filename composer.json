@@ -12,7 +12,8 @@
         "fakerphp/faker": "^1.23",
         "phpunit/phpunit": "^10.0",
         "codeigniter/phpstan-codeigniter": "^1.4",
-        "mockery/mockery": "^1.6"
+        "mockery/mockery": "^1.6",
+        "prewk/result": "^3.3"
     },
     "license": "LGPL-3.0-or-later",
     "autoload": {
