@@ -5,7 +5,7 @@ namespace MKU\Services;
 use CodeIgniter\Database\BaseConnection;
 use MKU\Services\Config\Transaction as TransactionConfig;
 
-class TransactionService implements ServiceInterface {
+class TransactionService implements Service {
     private TransactionConfig $config;
     private BaseConnection $db;
 
