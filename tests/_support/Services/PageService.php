@@ -22,6 +22,10 @@ final class PageService implements Service {
         $this->page_contents = $page_contents;
     }
 
+    public function shortname(): string {
+        return 'pages';
+    }
+
     public function save(Page $page): Result {
         return $this->transaction->transact(function () use (&$page) {
             if (!$this->pages->validate($page)) {
@@ -59,7 +63,7 @@ final class PageService implements Service {
     }
 
     public function search(array $filters = []): ResultInterface {
-        $q = $this->pages->with('website_page_page_contents')->builder()->select();
+        $q = $this->pages->with('website_page_contents')->builder()->select();
         if(isset($filters['title'])) {
             $q = $q->whereIn(
                 'id',
@@ -87,4 +91,5 @@ final class PageService implements Service {
 
         return $page;
     }
+
 }
