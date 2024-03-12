@@ -2,6 +2,7 @@
 
 namespace lib\Models;
 
+use Cassandra\Date;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Tests\Support\Entities\Page;
@@ -74,6 +75,7 @@ class PageContentTest extends CIUnitTestCase
 
     public function testFind(): void {
         $page_content = $this->newPageContent();
+        $time_before_insert = time();
         $id = $this->model->insert($page_content, true);
         $this->assertIsInt($id);
 
@@ -84,8 +86,8 @@ class PageContentTest extends CIUnitTestCase
         $this->assertEquals($page_content->tags, $found->tags);
         $this->assertEquals($page_content->contents, $found->contents);
         $this->assertEquals($page_content->menu_id, $found->menu_id);
-        $this->assertGreaterThanOrEqual(time(), $page_content->created_at);
-        $this->assertGreaterThanOrEqual(time(), $page_content->updated_at);
+        $this->assertGreaterThanOrEqual($time_before_insert, $found->created_at->getTimestamp());
+        $this->assertGreaterThanOrEqual($time_before_insert, $found->updated_at->getTimestamp());
         $this->assertNull($page_content->deleted_at);
         $this->assertNull($page_content->publish_at);
     }

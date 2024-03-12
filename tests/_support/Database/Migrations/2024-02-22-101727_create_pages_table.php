@@ -39,12 +39,12 @@ class CreatePages extends BaseMigration {
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => false,
-                'default' => new RawSql('CURRENT_DATETIME'),
+                'default' => new RawSql('CURRENT_TIMESTAMP'),
             ],
             'updated_at' => [
                 'type' => 'DATETIME',
-                'default' => new RawSql('CURRENT_DATETIME'),
-                'on_update' => new RawSql('CURRENT_DATETIME'),
+                'default' => new RawSql('CURRENT_TIMESTAMP'),
+                'on_update' => new RawSql('CURRENT_TIMESTAMP'),
             ],
             'deleted_at' => [
                 'type' => 'DATETIME',
