@@ -19,7 +19,10 @@
     "autoload": {
         "psr-4": {
             "MKU\\Services\\": "src/"
-        }
+        },
+        "files": [
+            "vendor/prewk/result/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
