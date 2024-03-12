@@ -21,7 +21,7 @@ There are multiple configuration files available in the [src/Config](https://git
 You can override these default configuration by copying the configuration file into your
 project and adjusting the values in your editor.
 
-TODO: add publishable configuration
+_TODO: add publishable configuration_
 
 ## Service Interface
 
@@ -91,7 +91,7 @@ class Services extends BaseService {
     // use the interface as return type here
     public function business(): MyBusinessService {
         // change which service class to use for the MyBusinessService interface here
-        return self::simple_business();
+        return self::business_simple();
     }
     
     // ....
@@ -121,7 +121,7 @@ If an exception occurs during the transaction, the transaction will be rolled ba
 
 Transactions can be nested.
 
-*NOTE:* Not all database systems and engines support transactions, especially strict ones.
+_NOTE: Not all database systems and engines support transactions by default, especially transactions with strict isolation between connections._
 
 
 Future configuration options:
