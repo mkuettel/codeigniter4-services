@@ -6,9 +6,7 @@ use MKU\Services\Entity\ServiceEntityBase;
 use Tatter\Relations\Traits\EntityTrait;
 
 class PageContent extends ServiceEntityBase {
-    use EntityTrait;
-
-    protected $primaryKey = ['id', 'language'];
+    protected $primaryKey = 'id';
     protected $table = 'page_contents';
 
     protected $attributes = [

@@ -14,12 +14,12 @@ use Tests\Support\Models\PageModel;
 final class PageService implements Service {
     private TransactionService $transaction;
     private PageModel $pages;
-    private PageContentModel $contents;
+    private PageContentModel $page_contents;
 
-    public function __construct(TransactionService $transaction, PageModel $pages, PageContentModel $contents) {
+    public function __construct(TransactionService $transaction, PageModel $pages, PageContentModel $page_contents) {
         $this->transaction = $transaction;
         $this->pages = $pages;
-        $this->contents = $contents;
+        $this->page_contents = $page_contents;
     }
 
     public function save(Page $page): Result {
@@ -28,9 +28,9 @@ final class PageService implements Service {
                 return err($this->pages->errors());
             }
 
-            foreach($page->contents ?? [] as $page_content) {
-                if(!$this->contents->validate($page_content)) {
-                    return err($this->contents->errors());
+            foreach($page->page_contents ?? [] as $page_content) {
+                if(!$this->page_contents->validate($page_content)) {
+                    return err($this->page_contents->errors());
                 }
             }
 
@@ -38,10 +38,10 @@ final class PageService implements Service {
                 throw new ServiceException("Couldn't store page: " . json_encode($this->pages->errors()));
             }
 
-            foreach($page->contents ?? [] as $page_content) {
+            foreach($page->page_contents as $page_content) {
                 $page_content->page_id = $page->id;
-                if(!$this->contents->store($page_content)) {
-                    throw new ServiceException("Couldn't store page content: " . json_encode($this->contents->errors()));
+                if(!$this->page_contents->store($page_content)) {
+                    throw new ServiceException("Couldn't store page content: " . json_encode($this->page_contents->errors()));
                 }
             }
 
@@ -59,11 +59,11 @@ final class PageService implements Service {
     }
 
     public function search(array $filters = []): ResultInterface {
-        $q = $this->pages->with('website_page_contents')->builder()->select();
+        $q = $this->pages->with('website_page_page_contents')->builder()->select();
         if(isset($filters['title'])) {
             $q = $q->whereIn(
                 'id',
-                $this->contents->builder()->select('page_id')->like('title', $filters['title'])
+                $this->page_contents->builder()->select('page_id')->like('title', $filters['title'])
             );
         }
         // TODO: implement some more filters

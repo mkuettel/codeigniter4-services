@@ -21,7 +21,7 @@ class PageServiceTest extends CIUnitTestCase
 
     public function newPage(): Page {
         $page = new Page([
-            'contents' => [
+            'page_contents' => [
                  new PageContent([
                     'title' => 'TestPageService',
                     'language' => 'en',
@@ -48,23 +48,23 @@ class PageServiceTest extends CIUnitTestCase
 
     public function testSaveInsert(): void {
         $page = $this->newPage();
-        $this->assertTrue($page->hasContents());
+        $this->assertTrue($page->hasPageContents());
         $result = $this->pages->save($page);
         $this->assertIsInt($page->id);
-        $this->assertTrue($page->hasContents());
-        $this->assertIsInt($page->getContent('en')->id);
+        $this->assertTrue($page->hasPageContents());
+        $this->assertIsInt($page->getPageContent('en')->id);
     }
 
     public function testSaveUpdate(): void {
         $page = $this->newPage();
         $this->pages->save($page);
         $this->assertIsInt($page->id);
-        $page_content = $page->getContent('en');
+        $page_content = $page->getPageContent('en');
         $page_content->title = 'updated title';
         $this->pages->save($page);
         $updated = $this->pages->get($page->id);
         $this->assertNotNull($updated);
-        $this->assertEquals($page_content->title, $updated->getContent('en')->title);
+        $this->assertEquals($page_content->title, $updated->getPageContent('en')->title);
     }
 
     public function testGet(): void {
@@ -73,8 +73,8 @@ class PageServiceTest extends CIUnitTestCase
         $this->assertIsInt($page->id);
         $saved = $this->pages->get($page->id);
         $this->assertEquals($page->id, $saved->id);
-        $this->assertTrue($page->hasContents());
-        $this->assertIsList($page->contents);
+        $this->assertNotEmpty($page->page_contents);
+        $this->assertIsList($page->page_contents);
     }
 
     public function testGetNonExisting(): void {

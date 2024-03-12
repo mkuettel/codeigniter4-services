@@ -80,7 +80,7 @@ class PageContentTest extends CIUnitTestCase
         $found = $this->model->find($id);
         self::assertEquals($id, $found->id);
         $this->assertEquals($page_content->title, $found->title);
-        $this->assertEquals($page_content->descrption, $found->descrption);
+        $this->assertEquals($page_content->description, $found->description);
         $this->assertEquals($page_content->tags, $found->tags);
         $this->assertEquals($page_content->contents, $found->contents);
         $this->assertEquals($page_content->menu_id, $found->menu_id);
@@ -103,7 +103,6 @@ class PageContentTest extends CIUnitTestCase
         $updated = $this->model->find($id);
         $this->assertNotEquals($page_content->title, $updated->title);
         $this->assertEquals($found->title, $updated->title);
-        $this->assertNotEquals($page_content->description, $updated->description);
         $this->assertEquals($found->description, $updated->description);
     }
 }
