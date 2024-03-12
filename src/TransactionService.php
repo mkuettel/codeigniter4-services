@@ -21,6 +21,7 @@ class TransactionService implements ServiceInterface {
      */
     public function transact(\Closure $func, bool $testMode = false): mixed {
         $this->db->transException(true);
+//        $this->db->transStrict(true);
         try {
             $this->db->transStart($testMode);
             $result = $func();
