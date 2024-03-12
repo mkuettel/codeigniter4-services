@@ -1,4 +1,4 @@
-image: composer:2.7
+image: mkuettel/phpci:8.3-apache
 
 cache:
   paths:
@@ -6,7 +6,7 @@ cache:
 
 before_script:
   - cp env-ci .env
-  - composer install
+  - php /composer.phar install
 
 services:
   - mysql:5.7
@@ -43,9 +43,9 @@ lint-test-job:
 package-job:
   stage: pkg
   script:
-  - composer install --no-dev
-  - composer dump-autoload
-  - tar cvzf codeigniter4-services-$(git rev-parse HEAD).tar.gz src composer.lock composer.json
+  - php /composer.phar install --no-dev
+  - php /composer.phar dump-autoload
+  - tar cvzf codeigniter4-services-$(git rev-parse HEAD).tar.gz src php /composer.phar.lock php /composer.phar.json
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
