@@ -149,12 +149,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/mkuettel/codeigniter4-relations.git",
-                "reference": "3f6b2da24f8c3c8c7fdc45dba2f773260981fd17"
+                "reference": "ba3a88d529fb0d53002067d16626a5208d6b227d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mkuettel/codeigniter4-relations/zipball/3f6b2da24f8c3c8c7fdc45dba2f773260981fd17",
-                "reference": "3f6b2da24f8c3c8c7fdc45dba2f773260981fd17",
+                "url": "https://api.github.com/repos/mkuettel/codeigniter4-relations/zipball/ba3a88d529fb0d53002067d16626a5208d6b227d",
+                "reference": "ba3a88d529fb0d53002067d16626a5208d6b227d",
                 "shasum": ""
             },
             "require": {
@@ -206,7 +206,7 @@
             "support": {
                 "source": "https://github.com/mkuettel/codeigniter4-relations/tree/develop"
             },
-            "time": "2024-03-12T03:31:11+00:00"
+            "time": "2024-03-12T10:50:46+00:00"
         },
         {
             "name": "mkuettel/codeigniter4-schemas",
