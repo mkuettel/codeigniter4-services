@@ -9,26 +9,16 @@ trait Storable {
     // assigned id on insert, updates the record
     // when changed
     public function store(ServiceEntity $entity): bool {
-        if($entity->getPrimaryKey() !== null && !$entity->getPrimaryKey()) return true;
+        if($entity->getPrimaryKeyValue() !== null && !$entity->getPrimaryKeyName()) return true;
         $saved = false;
 
         if ($this->shouldUpdate($entity)) {
-            $saved = $this->update($this->getPrimaryKey(), $entity);
+            $saved = $this->update($entity->getPrimaryKeyValue(), $entity);
         } else {
             $id = $this->insert($entity, true);
-            if($id !== false) {
+            if($id !== false && $entity->getPrimaryKeyName() !== null) {
                 $saved = true;
-                if (is_array($entity->primaryKey)) {
-                    foreach ($entity->primaryKey as $key) {
-                        if (isset($entity->$key) && $entity->$key === null) {
-                            $entity->$key = $id;
-                            break;
-                        }
-                    }
-                } else {
-                    $key = $entity->primaryKey;
-                    $entity->$key = $id;
-                }
+                $entity->setPrimaryKeyValue($id);
             }
         }
         return $saved;
