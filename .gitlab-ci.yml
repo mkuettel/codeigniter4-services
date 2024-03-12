@@ -5,6 +5,7 @@ cache:
     - vendor/
 
 before_script:
+  - echo 'xdebug.mode=coverage' >> /etc/php/php.ini
   - cp env-ci .env
   - php /composer.phar install
 
