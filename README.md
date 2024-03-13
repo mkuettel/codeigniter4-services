@@ -1,8 +1,8 @@
 # CodeIgniter4 Services
 
 
-[![pipeline status](https://gitlab.hostmax.ch/mku/hostmax-website/badges/main/pipeline.svg)](https://gitlab.hostmax.ch/mku/hostmax-website/-/commits/main)
-[![coverage report](https://gitlab.hostmax.ch/mku/hostmax-website/badges/main/coverage.svg)](https://gitlab.hostmax.ch/mku/hostmax-website/-/commits/main)
+[![pipeline status](https://gitlab.hostmax.ch/mku/codeigniter4-services/badges/main/pipeline.svg)](https://gitlab.hostmax.ch/mku/hostmax-website/-/commits/main)
+[![coverage report](https://gitlab.hostmax.ch/mku/codeigniter4-services/badges/main/coverage.svg)](https://gitlab.hostmax.ch/mku/hostmax-website/-/commits/main)
 
 This library should make it easier to facilitate a Service layer for CodeIgniter4 application.
 Additionally there are some tools to interact with the model layer, in particular
