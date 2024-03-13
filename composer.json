@@ -5,7 +5,7 @@
     "require": {
         "php": "^8.0",
         "codeigniter4/framework": "^4.0",
-	    "mkuettel/codeigniter4-relations": "dev-develop",
+    "mkuettel/codeigniter4-relations": "dev-develop",
         "mkuettel/codeigniter4-schemas": "dev-develop"
     },
     "require-dev": {
@@ -32,7 +32,24 @@
     "authors": [
         {
             "name": "Moritz Küttel",
-            "email": "moritz_kuettel+composer_ci4services@fastmail.com"
+            "email": "moritz_kuettel+composer_ci4services@fastmail.com",
+            "homepage": "https://kuettel.net",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "mku+ci4_services_support@hostmax.ch",
+        "issues": "https://gitlab.hostmax.ch/mku/codeigniter4-services/-/issues",
+        "source": "https://github.com/mkuettel/codeigniter4-services"
+    },
+    "funding": [
+        {
+            "type": "buymecoffee",
+            "url": "https://www.buymeacoffee.com/kuettel"
+        },
+        {
+            "type": "liberapay",
+            "url": "https://liberapay.com/mkuettel"
         }
     ]
 }
