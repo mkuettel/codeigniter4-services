@@ -21,7 +21,7 @@
             "MKU\\Services\\": "src/"
         },
         "files": [
-            "src/Helpers/helpers.php"
+            "src/Helpers/result_helper.php"
         ]
     },
     "autoload-dev": {
