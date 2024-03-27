@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f8a096b9a0894178b83240b49a587a1f",
+    "content-hash": "a72d207a29c1c7c053ba11ee9c4a56e2",
     "packages": [
         {
             "name": "codeigniter4/framework",
@@ -142,135 +142,6 @@
                 }
             ],
             "time": "2023-10-10T08:35:13+00:00"
-        },
-        {
-            "name": "mkuettel/codeigniter4-relations",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mkuettel/codeigniter4-relations.git",
-                "reference": "ba3a88d529fb0d53002067d16626a5208d6b227d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mkuettel/codeigniter4-relations/zipball/ba3a88d529fb0d53002067d16626a5208d6b227d",
-                "reference": "ba3a88d529fb0d53002067d16626a5208d6b227d",
-                "shasum": ""
-            },
-            "require": {
-                "mkuettel/codeigniter4-schemas": "dev-develop",
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "codeigniter4/framework": "^4.1",
-                "tatter/tools": "^2.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tatter\\Relations\\": "src"
-                },
-                "exclude-from-classmap": [
-                    "**/Database/Migrations/**"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthew Gatner",
-                    "email": "mgatner@tattersoftware.com",
-                    "homepage": "https://tattersoftware.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Moritz Küttel",
-                    "email": "moritz_kuettel+composer_ci4schemas@tattersoftware.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Entity relationships for CodeIgniter 4",
-            "homepage": "https://github.com/tattersoftware/codeigniter4-relations",
-            "keywords": [
-                "Relationships",
-                "codeigniter",
-                "codeigniter4",
-                "database",
-                "entity",
-                "mapping",
-                "relations"
-            ],
-            "support": {
-                "source": "https://github.com/mkuettel/codeigniter4-relations/tree/develop"
-            },
-            "time": "2024-03-12T10:50:46+00:00"
-        },
-        {
-            "name": "mkuettel/codeigniter4-schemas",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mkuettel/codeigniter4-schemas.git",
-                "reference": "4aa0d5fe6749359e7c9338482e04847372b07d0a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mkuettel/codeigniter4-schemas/zipball/4aa0d5fe6749359e7c9338482e04847372b07d0a",
-                "reference": "4aa0d5fe6749359e7c9338482e04847372b07d0a",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.4 || ^8.0"
-            },
-            "require-dev": {
-                "codeigniter4/framework": "^4.1",
-                "tatter/agents": "^1.2",
-                "tatter/tools": "^2.0"
-            },
-            "default-branch": true,
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tatter\\Schemas\\": "src"
-                },
-                "exclude-from-classmap": [
-                    "**/Database/Migrations/**"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Matthew Gatner",
-                    "email": "mgatner@tattersoftware.com",
-                    "homepage": "https://tattersoftware.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Moritz Küttel",
-                    "email": "moritz_kuettel+composer_ci4schemas@tattersoftware.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Database schema management, for CodeIgniter 4",
-            "homepage": "https://github.com/mkuettel/codeigniter4-schemas",
-            "keywords": [
-                "codeigniter",
-                "codeigniter4",
-                "database",
-                "mapping",
-                "schemas",
-                "structure"
-            ],
-            "support": {
-                "source": "https://github.com/mkuettel/codeigniter4-schemas/tree/develop"
-            },
-            "time": "2024-03-12T03:37:46+00:00"
         },
         {
             "name": "psr/log",
@@ -514,16 +385,16 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "1.6.9",
+            "version": "1.6.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mockery/mockery.git",
-                "reference": "0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06"
+                "reference": "81a161d0b135df89951abd52296adf97deb0723d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mockery/mockery/zipball/0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06",
-                "reference": "0cc058854b3195ba21dc6b1f7b1f60f4ef3a9c06",
+                "url": "https://api.github.com/repos/mockery/mockery/zipball/81a161d0b135df89951abd52296adf97deb0723d",
+                "reference": "81a161d0b135df89951abd52296adf97deb0723d",
                 "shasum": ""
             },
             "require": {
@@ -535,8 +406,8 @@
                 "phpunit/phpunit": "<8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^8.5 || ^9.6.10",
-                "symplify/easy-coding-standard": "^12.0.8"
+                "phpunit/phpunit": "^8.5 || ^9.6.17",
+                "symplify/easy-coding-standard": "^12.1.14"
             },
             "type": "library",
             "autoload": {
@@ -593,7 +464,7 @@
                 "security": "https://github.com/mockery/mockery/security/advisories",
                 "source": "https://github.com/mockery/mockery"
             },
-            "time": "2023-12-10T02:24:34+00:00"
+            "time": "2024-03-21T18:34:15+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -832,16 +703,16 @@
         },
         {
             "name": "phpstan/phpstan",
-            "version": "1.10.60",
+            "version": "1.10.65",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "95dcea7d6c628a3f2f56d091d8a0219485a86bbe"
+                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/95dcea7d6c628a3f2f56d091d8a0219485a86bbe",
-                "reference": "95dcea7d6c628a3f2f56d091d8a0219485a86bbe",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/3c657d057a0b7ecae19cb12db446bbc99d8839c6",
+                "reference": "3c657d057a0b7ecae19cb12db446bbc99d8839c6",
                 "shasum": ""
             },
             "require": {
@@ -890,7 +761,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-07T13:30:19+00:00"
+            "time": "2024-03-23T10:30:26+00:00"
         },
         {
             "name": "phpunit/php-code-coverage",
@@ -1215,16 +1086,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "10.5.13",
+            "version": "10.5.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7"
+                "reference": "86376e05e8745ed81d88232ff92fee868247b07b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
-                "reference": "20a63fc1c6db29b15da3bd02d4b6cf59900088a7",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/86376e05e8745ed81d88232ff92fee868247b07b",
+                "reference": "86376e05e8745ed81d88232ff92fee868247b07b",
                 "shasum": ""
             },
             "require": {
@@ -1296,7 +1167,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.13"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.15"
             },
             "funding": [
                 {
@@ -1312,7 +1183,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-12T15:37:41+00:00"
+            "time": "2024-03-22T04:17:47+00:00"
         },
         {
             "name": "prewk/option",
@@ -1839,16 +1710,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "6.0.1",
+            "version": "6.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "43c751b41d74f96cbbd4e07b7aec9675651e2951"
+                "reference": "8074dbcd93529b357029f5cc5058fd3e43666984"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/43c751b41d74f96cbbd4e07b7aec9675651e2951",
-                "reference": "43c751b41d74f96cbbd4e07b7aec9675651e2951",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/8074dbcd93529b357029f5cc5058fd3e43666984",
+                "reference": "8074dbcd93529b357029f5cc5058fd3e43666984",
                 "shasum": ""
             },
             "require": {
@@ -1863,7 +1734,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "6.0-dev"
+                    "dev-main": "6.1-dev"
                 }
             },
             "autoload": {
@@ -1891,7 +1762,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
                 "security": "https://github.com/sebastianbergmann/environment/security/policy",
-                "source": "https://github.com/sebastianbergmann/environment/tree/6.0.1"
+                "source": "https://github.com/sebastianbergmann/environment/tree/6.1.0"
             },
             "funding": [
                 {
@@ -1899,7 +1770,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-04-11T05:39:26+00:00"
+            "time": "2024-03-23T08:47:14+00:00"
         },
         {
             "name": "sebastian/exporter",
@@ -2503,10 +2374,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "mkuettel/codeigniter4-relations": 20,
-        "mkuettel/codeigniter4-schemas": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

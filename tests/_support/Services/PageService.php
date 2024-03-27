@@ -63,7 +63,7 @@ final class PageService implements Service {
     }
 
     public function search(array $filters = []): ResultInterface {
-        $q = $this->pages->with('website_page_contents')->builder()->select();
+        $q = $this->pages->builder()->select();
         if(isset($filters['title'])) {
             $q = $q->whereIn(
                 'id',

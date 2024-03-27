@@ -4,9 +4,7 @@
     "type": "library",
     "require": {
         "php": "^8.0",
-        "codeigniter4/framework": "^4.0",
-    "mkuettel/codeigniter4-relations": "dev-develop",
-        "mkuettel/codeigniter4-schemas": "dev-develop"
+        "codeigniter4/framework": "^4.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",

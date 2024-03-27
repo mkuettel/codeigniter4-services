@@ -3,10 +3,8 @@ declare(strict_types=1);
 namespace MKU\Services\Entity;
 
 use CodeIgniter\Entity\Entity;
-use Tatter\Relations\Traits\EntityTrait;
 
 abstract class ServiceEntityBase extends Entity implements ServiceEntity {
-    use EntityTrait;
 
     public function getPrimaryKeyName(): int|string|array|null {
         return $this->primaryKey;
