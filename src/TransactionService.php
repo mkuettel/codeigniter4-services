@@ -5,13 +5,24 @@ namespace MKU\Services;
 use CodeIgniter\Database\BaseConnection;
 use MKU\Services\Config\Transaction as TransactionConfig;
 
+/**
+ * The TransactionService provides a functional API to run database transactions.
+ */
 class TransactionService implements Service {
     private TransactionConfig $config;
     private BaseConnection $db;
 
+    private bool $testMode;
+    private bool $strictMode;
+    private bool $throwExceptions;
+
     public function __construct(TransactionConfig $config, BaseConnection $db) {
         $this->config = $config;
         $this->db = $db;
+
+        $this->testMode = $config->testMode;
+        $this->strictMode = $config->strictMode;
+        $this->throwExceptions = $config->throwExceptions;
     }
 
 
@@ -19,25 +30,79 @@ class TransactionService implements Service {
         return 'transaction';
     }
 
+
+    public function setTestMode(bool $testMode): void {
+        $this->testMode = $testMode;
+    }
+
+    public function getTestMode(): bool {
+        return $this->testMode;
+    }
+
+    public function setStrictMode(bool $strictMode): void {
+        $this->strictMode = $strictMode;
+    }
+
+    public function getStrictMode(): bool {
+        return $this->strictMode;
+    }
+
+    public function enableTransactionExceptions(): void {
+        $this->throwExceptions = true;
+    }
+
+    public function disableTransactionExceptions(): void {
+        $this->throwExceptions = false;
+    }
+
     /**
-     * @param \Closure $func
-     * @param bool $testMode
-     * @return mixed
+     * Wraps the given function into a database transaction.
+     *
+     * The given function is run and all modifications to the database
+     * are only committed if the function returns without throwing an exception.
+     * If the function throws an exception, the transaction will be rolled back.
+     *
+     * The transaction is run in strict mode (if enabled in the configuration or via setter method).
+     *
+     * If transaction exceptions are enabled and the given function throws an exception, the exception
+     * is wrapped.
+     *
+     * All Exceptions during transactions are logged.
+     *
+     * @param \Closure $func closure which will be run inside the transaction
+     * @return mixed on success when what the given function returned, or false if an exception was thrown and a rollback occured.
      */
     public function transact(\Closure $func, bool $testMode = false): mixed {
         $this->db->transException(true);
-//        $this->db->transStrict(true);
+        $this->db->transStrict($this->strictMode);
+
         try {
-            $this->db->transStart($testMode);
+            $this->db->transStart($this->testMode);
+
+            // run the given function which can now do database operations in this transaction
             $result = $func();
+
+            // done, and everything seems fine, so lets commit this to the database
             $this->db->transCommit();
+
+            return $result;
         } catch (\Throwable $throwable) {
+            // roll back everything, something went horribly wrong
             $this->db->transRollback();
-            throw new TransactionException("Exception during transaction, rolled back", 1, $throwable);
+
+
+            if ($this->throwExceptions) {
+                log_message('warning', 'Exception during transaction, rolled back. Passing on the exception: ' . $throwable->getMessage(), ['function' => __METHOD__, 'throwable' => $throwable]);
+                throw new TransactionException("Exception during transaction, rolled back", $throwable->getCode(), $throwable);
+            } else {
+                log_message('error', 'Exception during transaction, rolled back: ' . $throwable->getMessage(), ['function' => __METHOD__, 'throwable' => $throwable]);
+            }
+
+            return false;
         } finally {
+            // make sure to always complete the transaction
             $this->db->transComplete();
         }
 
-        return $result;
     }
 }
