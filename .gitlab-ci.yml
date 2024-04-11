@@ -47,7 +47,7 @@ package-job:
   script:
   - php /composer.phar install --no-dev
   - php /composer.phar dump-autoload
-  - tar cvzf codeigniter4-services-$(git rev-parse HEAD).tar.gz src php /composer.phar.lock php /composer.phar.json
+  - tar cvzf codeigniter4-services-$(git rev-parse HEAD).tar.gz src vendor LICENSE README.md env
 
 deploy-job:      # This job runs in the deploy stage.
   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
