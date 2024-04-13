@@ -16,7 +16,7 @@ trait Storable {
         $saved = false;
 
         if ($this->shouldUpdate($entity)) {
-            $saved = !$this->hasChanged($entity) || $this->update($entity->getPrimaryKeyValue(), $entity);
+            $saved = !$entity->hasChanged() || $this->update($entity->getPrimaryKeyValue(), $entity);
         } else {
             $id = $this->insert($entity, true);
             $saved = $id !== false && $entity->getPrimaryKeyName() !== null;
