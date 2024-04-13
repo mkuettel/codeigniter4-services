@@ -5,19 +5,22 @@ namespace MKU\Services\Model;
 use MKU\Services\Entity\ServiceEntity;
 
 trait Storable {
-    // updates the given entity object with the
-    // assigned id on insert, updates the record
-    // when changed
+    /**
+     * Store an entity in the database, either by updating or inserting it if required.
+     *
+     * @param ServiceEntity $entity
+     * @return bool whether the entity got stored in the database
+     */
     public function store(ServiceEntity $entity): bool {
         if($entity->getPrimaryKeyValue() !== null && !$entity->getPrimaryKeyName()) return true;
         $saved = false;
 
         if ($this->shouldUpdate($entity)) {
-            $saved = $this->update($entity->getPrimaryKeyValue(), $entity);
+            $saved = !$this->hasChanged($entity) || $this->update($entity->getPrimaryKeyValue(), $entity);
         } else {
             $id = $this->insert($entity, true);
-            if($id !== false && $entity->getPrimaryKeyName() !== null) {
-                $saved = true;
+            $saved = $id !== false && $entity->getPrimaryKeyName() !== null;
+            if ($saved) {
                 $entity->setPrimaryKeyValue($id);
             }
         }
