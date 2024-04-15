@@ -1,19 +1,24 @@
 <?php
 
-namespace Tests\Support\Services;
+namespace Tests\Lib\Services;
 
 use PHPUnit\Framework\TestCase;
 use Tests\Support\Config\ConfigurableTest as ConfigurableTestConfig;
+use Tests\Support\Services\ConfigurableTestService;
 
 class ConfigurableTestServiceTest extends TestCase {
 
-    public function testManualInstatiation(): void {
+    public function testManualInstantiation(): void {
         $config = config('ConfigurableTest');
+        $this->assertInstanceOf(ConfigurableTestConfig::class, $config);
+
         $service = new ConfigurableTestService($config);
+        $this->assertNotNull($service);
+        $this->assertNotNull($service->getConfig());
         $this->assertEquals($config, $service->getConfig());
     }
 
-    public function testServiceInstatiation(): void {
+    public function testServiceInstantiation(): void {
         $config = config('ConfigurableTest');
         $service = service('test_configurable');
         $this->assertInstanceOf(ConfigurableTestService::class, $service);

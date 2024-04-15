@@ -12,7 +12,7 @@ class ConfigurableTestService implements Configurable {
     use ConfigurableTrait;
 
     public function __construct(ConfigurableTestConfig $config) {
-        $this->applyConfig(null, $config);
+        $this->configure($config);
     }
 
     protected function applyConfig($_ = null, ConfigurableTestConfig $config = null): void {

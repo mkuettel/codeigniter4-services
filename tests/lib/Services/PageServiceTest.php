@@ -1,6 +1,6 @@
 <?php
 
-namespace lib\Services;
+namespace Tests\Lib\Services;
 
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;

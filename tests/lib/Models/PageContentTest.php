@@ -1,8 +1,7 @@
 <?php
 
-namespace lib\Models;
+namespace Tests\Lib\Models;
 
-use Cassandra\Date;
 use CodeIgniter\Test\CIUnitTestCase;
 use CodeIgniter\Test\DatabaseTestTrait;
 use Tests\Support\Entities\Page;
