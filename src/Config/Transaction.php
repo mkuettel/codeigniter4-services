@@ -4,6 +4,10 @@ namespace MKU\Services\Config;
 
 class Transaction {
 
+    // When transactions are disabled the TransactionService will not run any transactions, but will still run the
+    // given transaction function and the db queries therein, just without a transaction.
+    public bool $disableTransactions = false;
+
     // Whether the TransactionService should run in test mode. In test mode all transactions will be rolled back, even
     // if they are committed. This is useful for testing, to ensure that the database is always in a clean state.
     // https://codeigniter.com/user_guide/database/transactions.html#strict-mode
