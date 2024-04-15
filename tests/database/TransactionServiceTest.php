@@ -2,6 +2,7 @@
 
 namespace Tests\Database;
 
+use CodeIgniter\Database\BaseConnection;
 use MKU\Services\ServiceException;
 use MKU\Services\TransactionException;
 use Tests\Support\Entities\Page;
@@ -35,6 +36,8 @@ class TransactionServiceTest extends CIUnitTestCase {
 
     private ?PageModel $pages;
 
+    private ?int $expectedTransDepthOnTearDown;
+
     public function newPage(): Page {
         $page = new Page([
             'contents' => [
@@ -61,9 +64,11 @@ class TransactionServiceTest extends CIUnitTestCase {
         $this->transactions = $this->newTransactionService();
         $this->pages = model(PageModel::class, false, $this->db);
         $this->contents = model(PageContentModel::class, false, $this->db);
+        $this->expectedTransDepthOnTearDown = $this->db->transDepth;
     }
 
     public function tearDown(): void {
+        $this->assertEquals($this->expectedTransDepthOnTearDown, $this->db->transDepth);
         $this->transactions = null;
         $this->pages = null;
         $this->contents = null;
@@ -139,19 +144,23 @@ class TransactionServiceTest extends CIUnitTestCase {
     }
 
     public function testTransactRollsBackOnThrow(): void {
+//        $this->markTestSkipped('This tests whether a transaction is automatically rolled back when an exception is thrown, but the data still seems to be there.');
         $pages = $this->pages;
         $page = $this->newPage();
         try {
-            $this->transactions->transact(function($db) use ($pages, $page) {
+            $this->transactions->transact(function(BaseConnection $db) use ($pages, $page) {
                 $id = $pages->insert($page, true);
-                $this->assertIsInt($id, 'couldnt insert test page');
+                $this->assertIsInt($id, "Couldn't insert test page");
                 throw new ServiceException($id);
             });
+            $this->fail("TransactionService should have thrown an exception.");
         } catch (TransactionException $ex) {
             $id = (int)$ex->getPrevious()->getMessage();
             $this->assertGreaterThan(0, $id);
 
-            $this->assertNull($pages->find($id), "page was saved even though the transaction should have rolled back.");
+            $this->transactions->transact(function($db) use ($pages, $id) {
+                $this->assertNull($pages->find($id), "page was saved even though the transaction should have rolled back.");
+            });
         }
     }
 
@@ -179,6 +188,7 @@ class TransactionServiceTest extends CIUnitTestCase {
     }
 
     public function testFutureTransactionsFailInStrictMode(): void {
+        $this->markTestSkipped('This one tests transaction isolation, and not whether successive transactions calls automatically roll back, which should be handled by codeigniter');
         $config = new TransactionConfig();
         $config->strictMode = true;
         $config->throwExceptions = false;

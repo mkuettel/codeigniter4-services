@@ -72,28 +72,27 @@ class TransactionService implements Service, Configurable {
         $this->db->transException(true);
         $this->db->transStrict($this->strictMode);
 
+        $rolledBack = false;
+
+        $depth = $this->db->transDepth;
         try {
             $this->db->transStart($testMode || $this->testMode);
 
             // run the given function which can now do database operations in this transaction
-            $result = $func($this->db);
+            return $func($this->db);
 
-            // done, and everything seems fine, so lets commit this to the database
-            $this->db->transComplete();
-
-            return $result;
             // any exception which the given closure function doesn't catch is
         } catch (\Throwable $throwable) {
+
             // the rollback already occurred when a query failed if DBDebug is on and a DatabaseException was thrown,
             // so there's no rollback required in that case.
             // See section "Throwing Exceptions": https://codeigniter.com/user_guide/database/transactions.html#id5
-            if ((!$this->db->DBDebug) || !($throwable instanceof DatabaseException)) {
+            $rolledBack = $this->db->DBDebug && $throwable instanceof DatabaseException;
+            if (!$rolledBack) {
                 // roll back the transaction on any exception, even when it's not database related.
                 // this should be useful prevent inconsistencies with other sub-systems as well.
-                $this->db->transRollback();
+                $rolledBack = $this->db->transRollback();
             }
-
-
 
             if ($this->throwExceptions) {
                 log_message('warning', 'Exception during transaction, rolled back. Passing on the exception: ' . $throwable->getMessage(), ['function' => __METHOD__, 'throwable' => $throwable]);
@@ -103,6 +102,18 @@ class TransactionService implements Service, Configurable {
             }
 
             return false;
+        } finally {
+            // done, and everything seems fine, so lets complete the transaction, if there is still a strans
+            if (!$rolledBack) {
+                if ($depth < $this->db->transDepth) {
+                    $this->db->transComplete();
+                } else {
+                    log_message('warning',
+                        'Transaction depth is 0, but transaction was not completed. Was there a transCommit/transRollback or transCommit() run without a transBegin() inside the transaction closure',
+                        ['function' => __METHOD__, 'caller' => debug_backtrace()[1]['function'] ?? 'unknown']
+                    );
+                }
+            }
         }
     }
 }
