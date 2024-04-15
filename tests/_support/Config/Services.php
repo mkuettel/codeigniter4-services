@@ -9,7 +9,9 @@ use CodeIgniter\Config\BaseService;
 use MKU\Services\TransactionService;
 use Tests\Support\Models\PageContentModel;
 use Tests\Support\Models\PageModel;
+use Tests\Support\Services\ConfigurableTestService;
 use Tests\Support\Services\PageService;
+use Tests\Support\Config\ConfigurableTest as ConfigurableTestConfig;
 
 class Services extends BaseService {
     /**
@@ -25,5 +27,12 @@ class Services extends BaseService {
             $page_model ?? model(PageModel::class),
             $page_content_model ?? model(PageContentModel::class),
         );
+    }
+
+    public static function test_configurable(ConfigurableTestConfig $config = null, bool $getShared = true): ConfigurableTestService {
+        if ($getShared) {
+            return self::getSharedInstance('test_configurable', $config);
+        }
+        return new ConfigurableTestService($config ?? config('ConfigurableTest'));
     }
 }
