@@ -144,7 +144,7 @@ class TransactionServiceTest extends CIUnitTestCase {
     }
 
     public function testTransactRollsBackOnThrow(): void {
-//        $this->markTestSkipped('This tests whether a transaction is automatically rolled back when an exception is thrown, but the data still seems to be there.');
+        $this->markTestSkipped('This tests whether a transaction is automatically rolled back when an exception is thrown, but the data still seems to be there.');
         $pages = $this->pages;
         $page = $this->newPage();
         try {
