@@ -15,7 +15,7 @@ class Transaction {
 
     // Whether we should tell the CodeIgniter BaseConnection $db to use strict mode for transactions.
     // https://codeigniter.com/user_guide/database/transactions.html#strict-mode
-    public bool $strictMode = true;
+    public bool $strictMode = false;
 
     // Whether the TransactionService should throw TransactionException when an exception occurs during a
     // transaction. If set to false, all exceptions during transaction will just be caught and logged as an error.
