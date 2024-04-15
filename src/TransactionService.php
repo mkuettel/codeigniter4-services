@@ -8,6 +8,10 @@ use MKU\Services\Config\Transaction as TransactionConfig;
 
 /**
  * The TransactionService provides a functional API to run database transactions.
+ * It wraps the CodeIgniter 4 database transaction functionality and adds some
+ * nicer syntax to use closures for the transactional code.
+ *
+ * @author Moritz Küttel
  */
 class TransactionService implements Service {
     private TransactionConfig $config;
@@ -73,13 +77,17 @@ class TransactionService implements Service {
      *
      * The transaction is run in strict mode (if enabled in the configuration or via setter method).
      *
-     * If transaction exceptions are enabled and the given function throws an exception, the exception
-     * is wrapped.
+     * If transaction given function throws an exception, any exception at all, the
+     * the transaction will be rolled back.
+     *
+     * If exceptions are enabled, the exception will be wrapped into a TransactionException and thrown.
      *
      * All Exceptions during transactions are logged.
      *
-     * @param \Closure $func closure which will be run inside the transaction
-     * @return mixed on success when what the given function returned, or false if an exception was thrown and a rollback occured.
+     * @param \Closure $func closure which will be run inside the transaction, and can do database operations. A BaseConnection is passed as the first parameter.
+     * @param bool $testMode whether to start a test transaction which will be rolled back in any case.
+     * @return mixed on success when what the given function returned, or false if an exception was thrown and a rollback occurred.
+     * @throws TransactionException
      */
     public function transact(\Closure $func, bool $testMode = false): mixed {
         $this->db->transException(true);
