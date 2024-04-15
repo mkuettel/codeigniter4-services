@@ -25,6 +25,10 @@ class TransactionService implements Service {
         return 'transaction';
     }
 
+    protected function applyConfig($_ = null, TransactionConfig $config = null): void {
+        if ($config->disableTransactions) {
+            $this->db->transOff();
+        }
         $this->testMode = $config->testMode;
         $this->strictMode = $config->strictMode;
         $this->throwExceptions = $config->throwExceptions;
@@ -88,9 +92,10 @@ class TransactionService implements Service {
             $result = $func();
 
             // done, and everything seems fine, so lets commit this to the database
-            $this->db->transCommit();
+            $this->db->transComplete();
 
             return $result;
+            // any exception which the given closure function doesn't catch is
         } catch (\Throwable $throwable) {
             // the rollback already occurred when a query failed if DBDebug is on and a DatabaseException was thrown,
             // so there's no rollback required in that case.
@@ -111,10 +116,6 @@ class TransactionService implements Service {
             }
 
             return false;
-        } finally {
-            // make sure to always complete the transaction
-            $this->db->transComplete();
         }
-
     }
 }
