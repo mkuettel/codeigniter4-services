@@ -3,6 +3,7 @@
 namespace MKU\Services;
 
 use CodeIgniter\Database\BaseConnection;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 use MKU\Services\Config\Transaction as TransactionConfig;
 
 /**
@@ -87,8 +88,15 @@ class TransactionService implements Service {
 
             return $result;
         } catch (\Throwable $throwable) {
-            // roll back everything, something went horribly wrong
-            $this->db->transRollback();
+            // the rollback already occurred when a query failed if DBDebug is on and a DatabaseException was thrown,
+            // so there's no rollback required in that case.
+            // See section "Throwing Exceptions": https://codeigniter.com/user_guide/database/transactions.html#id5
+            if ((!$this->db->DBDebug) || !($throwable instanceof DatabaseException)) {
+                // roll back the transaction on any exception, even when it's not database related.
+                // this should be useful prevent inconsistencies with other sub-systems as well.
+                $this->db->transRollback();
+            }
+
 
 
             if ($this->throwExceptions) {
