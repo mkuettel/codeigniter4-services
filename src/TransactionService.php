@@ -21,6 +21,10 @@ class TransactionService implements Service {
         $this->config = $config;
         $this->db = $db;
 
+    public function shortname(): string {
+        return 'transaction';
+    }
+
         $this->testMode = $config->testMode;
         $this->strictMode = $config->strictMode;
         $this->throwExceptions = $config->throwExceptions;
