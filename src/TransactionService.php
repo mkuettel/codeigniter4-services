@@ -86,7 +86,7 @@ class TransactionService implements Service {
         $this->db->transStrict($this->strictMode);
 
         try {
-            $this->db->transStart($this->testMode);
+            $this->db->transStart($testMode || $this->testMode);
 
             // run the given function which can now do database operations in this transaction
             $result = $func();
