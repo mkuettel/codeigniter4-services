@@ -5,6 +5,8 @@ namespace MKU\Services;
 use CodeIgniter\Database\BaseConnection;
 use CodeIgniter\Database\Exceptions\DatabaseException;
 use MKU\Services\Config\Transaction as TransactionConfig;
+use MKU\Services\Library\Config\Configurable;
+use MKU\Services\Library\Config\ConfigurableTrait;
 
 /**
  * The TransactionService provides a functional API to run database transactions.
@@ -13,17 +15,20 @@ use MKU\Services\Config\Transaction as TransactionConfig;
  *
  * @author Moritz Küttel
  */
-class TransactionService implements Service {
-    private TransactionConfig $config;
+class TransactionService implements Service, Configurable {
+    use ConfigurableTrait;
     private BaseConnection $db;
 
     private bool $testMode;
     private bool $strictMode;
     private bool $throwExceptions;
 
+
     public function __construct(TransactionConfig $config, BaseConnection $db) {
-        $this->config = $config;
         $this->db = $db;
+        $this->configure($config);
+    }
+
 
     public function shortname(): string {
         return 'transaction';
@@ -32,40 +37,13 @@ class TransactionService implements Service {
     protected function applyConfig($_ = null, TransactionConfig $config = null): void {
         if ($config->disableTransactions) {
             $this->db->transOff();
+        } else {
+            $this->db->transEnabled = false;
         }
+
         $this->testMode = $config->testMode;
         $this->strictMode = $config->strictMode;
         $this->throwExceptions = $config->throwExceptions;
-    }
-
-
-    public function shortname(): string {
-        return 'transaction';
-    }
-
-
-    public function setTestMode(bool $testMode): void {
-        $this->testMode = $testMode;
-    }
-
-    public function getTestMode(): bool {
-        return $this->testMode;
-    }
-
-    public function setStrictMode(bool $strictMode): void {
-        $this->strictMode = $strictMode;
-    }
-
-    public function getStrictMode(): bool {
-        return $this->strictMode;
-    }
-
-    public function enableTransactionExceptions(): void {
-        $this->throwExceptions = true;
-    }
-
-    public function disableTransactionExceptions(): void {
-        $this->throwExceptions = false;
     }
 
     /**
