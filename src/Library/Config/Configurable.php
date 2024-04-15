@@ -5,6 +5,7 @@ namespace MKU\Services\Library\Config;
 /**
  * @author Moritz Küttel
  * @template T of object
+ * @experimental This interface is experimental and may change in the future.
  */
 interface Configurable {
     /**

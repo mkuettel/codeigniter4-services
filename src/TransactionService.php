@@ -14,6 +14,7 @@ use MKU\Services\Library\Config\ConfigurableTrait;
  * nicer syntax to use closures for the transactional code.
  *
  * @author Moritz Küttel
+ * @experimental This class is experimental and may change in the future.
  */
 class TransactionService implements Service, Configurable {
     use ConfigurableTrait;

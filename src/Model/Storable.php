@@ -5,6 +5,10 @@ namespace MKU\Services\Model;
 use MKU\Services\Entity\ServiceEntity;
 use MKU\Services\ServiceException;
 
+/**
+ * @author Moritz Küttel
+ * @experimental This trait is experimental and may change in the future.
+ */
 trait Storable {
     /**
      * Store an entity in the database, either by updating or inserting it if required.

@@ -10,6 +10,7 @@ use CodeIgniter\Exceptions\ConfigException;
  *
  * @author Moritz Küttel
  * @template T of object
+ * @experimental This trait is experimental and may change in the future.
  */
 trait ConfigurableTrait {
 

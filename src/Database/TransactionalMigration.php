@@ -11,6 +11,7 @@ use MKU\Services\TransactionService;
  * Runs the database migrations inside a transaction.
  *
  * @author Moritz Küttel
+ * @experimental This class is experimental and may change in the future.
  */
 abstract class TransactionalMigration extends Migration {
 

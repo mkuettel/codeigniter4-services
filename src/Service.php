@@ -10,6 +10,7 @@ namespace MKU\Services;
  * your codeigniter application.
  *
  * @author Moritz Küttel
+ * @experimental This interface is experimental and may change in the future.
  */
 interface Service {
     /**
