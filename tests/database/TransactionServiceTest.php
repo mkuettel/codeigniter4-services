@@ -14,6 +14,10 @@ use MKU\Services\TransactionService;
 use MKU\Services\Config\Transaction as TransactionConfig;
 use Tests\Support\Services\PageService;
 
+/**
+ *
+ * @author Moritz Küttel
+ */
 class TransactionServiceTest extends CIUnitTestCase {
     use DatabaseTestTrait;
 
@@ -54,9 +58,6 @@ class TransactionServiceTest extends CIUnitTestCase {
         parent::setUp();
 
         $this->config = new TransactionConfig();
-        $this->config->testMode = false;
-        $this->config->strictMode = false;
-        $this->config->throwExceptions = true;
         $this->transactions = $this->newTransactionService();
         $this->pages = model(PageModel::class);
         $this->contents = model(PageContentModel::class);
@@ -70,16 +71,25 @@ class TransactionServiceTest extends CIUnitTestCase {
     }
 
     public function testInitialConfig(): void {
-        $this->assertFalse($this->transactions->getTestMode());
-        $this->assertFalse($this->transactions->getStrictMode());
+        $config = $this->transactions->getConfig();
+        $this->assertFalse($config->testMode);
+        $this->assertFalse($config->strictMode);
     }
 
     public function testGettersSetters(): void {
-        $this->transactions->setTestMode(true);
-        $this->transactions->setStrictMode(true);
 
-        $this->assertTrue($this->transactions->getTestMode());
-        $this->assertTrue($this->transactions->getStrictMode());
+        $this->config = new TransactionConfig();
+        $this->config->testMode = true;
+        $this->config->strictMode = false;
+        $this->config->throwExceptions = false;
+
+        $this->transactions->configure($this->config);
+
+        $config = $this->transactions->getConfig();
+
+        $this->assertTrue($config->testMode);
+        $this->assertFalse($config->strictMode);
+        $this->assertFalse($config->throwExceptions);
     }
 
     public function testInstantiateUsingServicesClass(): void {
@@ -142,10 +152,32 @@ class TransactionServiceTest extends CIUnitTestCase {
         }
     }
 
+    public function testTransactionsRollbackInTestMode(): void {
+        $config = new TransactionConfig();
+        $config->testMode = true;
+        $this->transactions->configure($config);
+
+        $pages = $this->pages;
+        $page = $this->newPage();
+        try {
+            $this->transactions->transact(function() use ($pages, $page) {
+                $id = $pages->insert($page, true);
+                $this->assertIsInt($id, 'couldnt insert test page');
+                throw new ServiceException($id);
+            });
+        } catch (TransactionException $ex) {
+            $id = (int)$ex->getPrevious()->getMessage();
+            $this->assertGreaterThan(0, $id);
+
+            $this->assertNull($pages->find($id), "page was saved even though the transaction should have rolled back.");
+        }
+    }
+
     public function testTransactionIsolationWithStrictMode(): void {
-        // commit transaction, so that the migrations and seeds are surely there
-        $this->db->transCommit();
-        $this->transactions->setStrictMode(true);
+        $config = new TransactionConfig();
+        $config->strictMode = true;
+        $config->throwExceptions = false;
+        $this->transactions->configure($config);
 
 
         $page = $this->newPage();
@@ -154,7 +186,6 @@ class TransactionServiceTest extends CIUnitTestCase {
         $other_conn = db_connect(config('Config\Database')->tests, false);
         //        $other_conn = db_connect($this->db, false);
 
-        $this->transactions->disableTransactionExceptions();
         $test = $this; // capture this test case for closure
         $id = $this->transactions->transact(function() use($test, $page, $other_conn) {
             $id = $test->pages->insert($page, true);
