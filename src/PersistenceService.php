@@ -41,5 +41,5 @@ interface PersistenceService extends Service {
      * @param PK $id primary key of the entity, usually its id
      * @return bool whether the entity was deleted
      */
-    public function delete($id): bool;
+    public function delete($id): ServiceEntity|bool;
 }
