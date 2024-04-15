@@ -38,13 +38,13 @@ final class PageService implements Service {
                 }
             }
 
-            if (!$this->pages->store($page)) {
+            if (false === ($id = $this->pages->store($page))) {
                 throw new ServiceException("Couldn't store page: " . json_encode($this->pages->errors()));
             }
 
             foreach($page->page_contents as $page_content) {
-                $page_content->page_id = $page->id;
-                if(!$this->page_contents->store($page_content)) {
+                $page_content->page_id = $id;
+                if (false === $this->page_contents->store($page_content)) {
                     throw new ServiceException("Couldn't store page content: " . json_encode($this->page_contents->errors()));
                 }
             }
