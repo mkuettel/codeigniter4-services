@@ -89,7 +89,7 @@ class TransactionService implements Service {
             $this->db->transStart($testMode || $this->testMode);
 
             // run the given function which can now do database operations in this transaction
-            $result = $func();
+            $result = $func($this->db);
 
             // done, and everything seems fine, so lets commit this to the database
             $this->db->transComplete();
