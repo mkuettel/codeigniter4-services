@@ -92,9 +92,9 @@ interface ServiceEntity {
      * (e.g. data with a user controlled id might get updated, data with the same id might get overwritten)
      *
      * @param array $attrs
-     * @return void
+     * @return bool whether any of the given attributes could be updated
      */
-    public function setAttributes(array $attrs): void;
+    public function setAttributes(array $attrs): bool;
 
     /**
      * Convert the entity to an array.
