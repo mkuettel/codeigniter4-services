@@ -11,19 +11,7 @@ use Prewk\Result;
  * @template PK of string|int|array
  * @experimental This interface is experimental and may change in the future.
  */
-interface PersistenceService extends Service {
-    /**
-     * retrieve an entity from persistent storage by its primary key, usually its id
-     * @param PK $id primary key of the entity
-     */
-    public function get($id): ?ServiceEntity;
-
-    /**
-     * Refresh an entity from persistent storage
-     * @param ServiceEntity $entity the entity object to refresh with the latest data from persistent storage
-     */
-    public function refresh(ServiceEntity $entity): bool;
-
+interface PersistenceService extends DataProvider {
     /**
      * Save an entity to persistent storage.
      * Note that the given entity object might be changed by saving it,
