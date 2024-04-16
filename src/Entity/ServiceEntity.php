@@ -21,6 +21,7 @@ namespace MKU\Services\Entity;
  * @template PKValueTypes of string|int
  * @template PrimaryKey of null|KeyName|array<KeyName>
  * @template PrimaryKeyValue of null|PKValueTypes|array<PKValueTypes>
+ * @template-implements ServiceEntity<PrimaryKey, PrimaryKeyValue>
  * @author Moritz Küttel
  * @experimental
  */
@@ -64,4 +65,41 @@ interface ServiceEntity {
      * @return void
      */
     public function setPrimaryKeyValue(int|string|null $val): void;
+
+    /**
+     * Check if the entity has a primary key defined.
+     *
+     * @return bool whether the entity has a primary key defined
+     */
+    public function hasPrimaryKey(): bool;
+
+    /**
+     * Check if the entity has a primary key value(s)
+     *
+     * If this method returns false, the ServiceEntity is not considered to be persisted to permanent storage,
+     * and will be created when saving it.
+     *
+     * If this method returns true, the ServiceEntity or an older version of it is considered to be persisted to permanent storage,
+     * and the persistent data will be updated when saving it.
+     *
+     * @return bool whether the entity has a primary key value(s)
+     */
+    public function hasPrimaryKeyValue(): bool;
+
+    /**
+     * Set multiple attributes of the entity at once.
+     * For security and data consistency reasons, this method MUST NOT be allowed to modify the primary key.
+     * (e.g. data with a user controlled id might get updated, data with the same id might get overwritten)
+     *
+     * @param array $attrs
+     * @return void
+     */
+    public function setAttributes(array $attrs): void;
+
+    /**
+     * Convert the entity to an array.
+     *
+     * @return array the entity as an associative array, where the keys are the attribute names
+     */
+    public function toArray(): array;
 }
