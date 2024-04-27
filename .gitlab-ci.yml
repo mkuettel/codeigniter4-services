@@ -10,8 +10,6 @@ before_script:
   - cp env-ci .env
   - php /composer.phar install
 
-services:
-  - mysql:5.7
 
 variables:
   MYSQL_DATABASE: "ci4_services_test"
@@ -29,18 +27,27 @@ build-job:
     - echo "Building"
     - echo "Nothing to do ... "
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully.
+unit-test-job:
+  stage: test
   script:
     - echo "Running unit tests... This will take about 60 seconds."
     - vendor/bin/phpunit --configuration phpunit.xml.dist --coverage-text --colors=never
-      # - echo "Code coverage is 90%"
+
+unit-test-job-mysql:
+  stage: test
+  services:
+    - mysql:5.7
+  script:
+    - echo "Running unit tests... This will take about 60 seconds."
+    - sed 's/\(name="database.tests.DBDriver" value="\)[^"]*/\1MySQLi/' < phpunit.xml.dist > phpunit.xml
+    - vendor/bin/phpunit --configuration phpunit.xml --coverage-text --colors=never
 
 lint-test-job:
   stage: test
   allow_failure: true
   script:
     - echo "Linting code... This will take about 10 seconds."
+    - vendor/bin/phpcs
 
 package-job:
   stage: pkg
@@ -49,8 +56,8 @@ package-job:
   - php /composer.phar dump-autoload
   - tar cvzf codeigniter4-services-$(git rev-parse HEAD).tar.gz src vendor LICENSE README.md env
 
-deploy-job:      # This job runs in the deploy stage.
-  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+deploy-job:
+  stage: deploy
   environment: production
   rules:
     - if: $CI_COMMIT_BRANCH == "production"
