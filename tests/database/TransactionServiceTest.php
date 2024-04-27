@@ -3,17 +3,16 @@
 namespace Tests\Database;
 
 use CodeIgniter\Database\BaseConnection;
+use CodeIgniter\Test\CIUnitTestCase;
+use CodeIgniter\Test\DatabaseTestTrait;
+use MKU\Services\Config\Transaction as TransactionConfig;
 use MKU\Services\ServiceException;
 use MKU\Services\TransactionException;
+use MKU\Services\TransactionService;
 use Tests\Support\Entities\Page;
 use Tests\Support\Entities\PageContent;
 use Tests\Support\Models\PageContentModel;
 use Tests\Support\Models\PageModel;
-use CodeIgniter\Test\CIUnitTestCase;
-use CodeIgniter\Test\DatabaseTestTrait;
-use MKU\Services\TransactionService;
-use MKU\Services\Config\Transaction as TransactionConfig;
-use Tests\Support\Services\PageService;
 
 /**
  *
@@ -165,7 +164,6 @@ class TransactionServiceTest extends CIUnitTestCase {
     }
 
     public function testTransactionsRollbackInTestMode(): void {
-        $this->markTestSkipped('testMode doesnt seem to work properly...');
         $page = $this->newPage();
         list($pages, $id) = $this->transactions->transact(function($db) use ($page) {
             $pages = model(PageModel::class, false, $db);
@@ -198,7 +196,7 @@ class TransactionServiceTest extends CIUnitTestCase {
         $page = $this->newPage();
 
         // other connections should not see data from ongoing connections
-        $other_conn = db_connect(config('Config\Database')->tests, false);
+        $other_conn = db_connect(config('Database')->tests, false);
         //        $other_conn = db_connect($this->db, false);
 
         $test = $this; // capture this test case for closure
@@ -219,9 +217,83 @@ class TransactionServiceTest extends CIUnitTestCase {
         $this->assertEquals($page->id, $result['id'], "The other connection should see the page, because the transaction is committed.");
     }
 
-//    public function testTransactionNests(): void {
-//    }
-
 //    public function testTransactionIsolation(): void {
 //    }
+    public function testTransactionNests(): void {
+        $page = $this->newPage();
+        $id = $this->transactions->transact(function() use ($page) {
+            $id = $this->pages->insert($page, true);
+            $this->assertIsInt($id, "couldn't insert test page");
+            $this->assertEquals($id, $this->pages->find($id)->id);
+            $id2 = $this->transactions->transact(function() use ($page) {
+                $id2 = $this->pages->insert($page, true);
+                $this->assertIsInt($id2, "couldn't insert test page");
+                $this->assertEquals($id2, $this->pages->find($id2)->id);
+                return $id2;
+            });
+            $this->assertEquals($id2, $this->pages->find($id2)->id);
+            return $id;
+        });
+        $this->assertEquals($id, $this->pages->find($id)->id);
+    }
+
+
+    public function testTransactionNestsJustRollbackInner(): void {
+        $innerTransactionWasRun = false;
+        $page = $this->newPage();
+        $id = $this->transactions->transact(function() use ($page, &$innerTransactionWasRun) {
+            $id = $this->pages->insert($page, true);
+            $this->assertIsInt($id, "couldn't insert test page");
+            $this->assertEquals($id, $this->pages->find($id)->id);
+            $id2 = null;
+            try {
+                $this->transactions->transact(function () use ($page, &$innerTransactionWasRun, &$id2) {
+                    $id2 = $this->pages->insert($page, true);
+                    $this->assertIsInt($id2, "couldn't insert test page");
+                    $this->assertEquals($id2, $this->pages->find($id2)->id);
+                    $innerTransactionWasRun = true;
+
+                    throw new ServiceException("The service irrevocably failed.");
+                });
+                $this->fail("Inner transaction should have thrown an exception.");
+            } catch (TransactionException $e) { }
+            $rolledBackPage = $this->pages->find($id2);
+            $this->assertNull($rolledBackPage, var_export($rolledBackPage, true));
+            return $id;
+        });
+        $this->assertTrue($innerTransactionWasRun);
+        $this->assertEquals($id, $this->pages->find($id)->id);
+    }
+
+    public function testTransactionNestsRollbackPropagatesThroughException()
+    {
+        $this->expectException(TransactionException::class);
+        $this->expectExceptionMessage("Exception during transaction, rolled back");
+
+        $id = null;
+        $page = $this->newPage();
+        try {
+            $this->transactions->transact(function () use ($page, &$id) {
+                $id = $this->pages->insert($page, true);
+                $this->assertIsInt($id, "couldn't insert test page");
+                $this->assertEquals($id, $this->pages->find($id)->id);
+                $id2 = null;
+                $this->transactions->transact(function () use ($page, &$id2) {
+                    $id2 = $this->pages->insert($page, true);
+                    $this->assertIsInt($id2, "couldn't insert test page");
+                    $this->assertEquals($id2, $this->pages->find($id2)->id);
+
+                    throw new ServiceException("The service irrevocably failed.");
+                });
+                $this->fail("Inner transaction should have thrown an exception.");
+                $rolledBackPage = $this->pages->find($id2);
+                $this->assertNull($rolledBackPage, var_export($rolledBackPage, true));
+                return $id;
+            });
+            $this->fail("The outer transaction should have thrown an exception due to the inner transaction.");
+        } finally {
+            $rolledBackPage = $this->pages->find($id);
+            $this->assertNull($rolledBackPage, var_export($rolledBackPage, true));
+        }
+    }
 }
