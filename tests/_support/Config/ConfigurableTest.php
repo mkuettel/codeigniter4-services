@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace Config;
+namespace Tests\Support\Config;
 
 class ConfigurableTest {
     public bool $boolean_conf = true;

@@ -5,7 +5,7 @@ namespace Tests\Support\Services;
 use MKU\Services\Library\Config\Configurable;
 use MKU\Services\Library\Config\ConfigurableTrait;
 use PHPUnit\Framework\Assert;
-use Config\ConfigurableTest as ConfigurableTestConfig;
+use Tests\Support\Config\ConfigurableTest as ConfigurableTestConfig;
 
 class ConfigurableTestService implements Configurable {
     /** @use ConfigurableTrait<ConfigurableTestConfig> */

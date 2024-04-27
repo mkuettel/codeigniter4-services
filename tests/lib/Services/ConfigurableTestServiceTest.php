@@ -3,7 +3,7 @@
 namespace Tests\Lib\Services;
 
 use PHPUnit\Framework\TestCase;
-use \Config\ConfigurableTest as ConfigurableTestConfig;
+use Tests\Support\Config\ConfigurableTest as ConfigurableTestConfig;
 use Tests\Support\Services\ConfigurableTestService;
 
 class ConfigurableTestServiceTest extends TestCase {

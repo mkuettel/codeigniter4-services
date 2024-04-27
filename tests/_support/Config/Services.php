@@ -11,7 +11,7 @@ use Tests\Support\Models\PageContentModel;
 use Tests\Support\Models\PageModel;
 use Tests\Support\Services\ConfigurableTestService;
 use Tests\Support\Services\PageService;
-use Config\ConfigurableTest as ConfigurableTestConfig;
+use Tests\Support\Config\ConfigurableTest as ConfigurableTestConfig;
 
 class Services extends BaseService {
     /**
