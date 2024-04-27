@@ -22,8 +22,12 @@
     <server name="app.baseURL" value="http://example.com/"/>
     <!-- Directory containing phpunit.xml -->
     <const name="HOMEPATH" value="./"/>
+    <const name="APPDIR" value="./tests/_support"/>
+    <const name="VENDORPATH" value="./vendor"/>
+    <const name="APP_NAMESPACE" value="Tests\Support\"/>
     <!-- Directory containing the Paths config file -->
-    <const name="CONFIGPATH" value="./vendor/codeigniter4/framework/app/Config/"/>
+<!--    <const name="CONFIGPATH" value="./vendor/codeigniter4/framework/app/Config/"/>-->
+<!--    <const name="CONFIGPATH" value="./tests/_support/Config/"/>-->
     <const name="PUBLICPATH" value="./tests/_support/public/"/>
 
     <!-- Test Support files -->
@@ -34,9 +38,9 @@
         <env name="database.tests.database" value="tests"/>
         <env name="database.tests.username" value="tests_user"/>
         <env name="database.tests.password" value=""/>
-        <env name="database.tests.DBDriver" value="MySQLi"/>
         <env name="database.tests.DBPrefix" value="tests_"/>
         -->
+        <env name="database.tests.DBDriver" value="\MKU\Services\Database\Transactional\SQLite3"/>
   </php>
   <source>
     <include>
