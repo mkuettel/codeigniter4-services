@@ -27,11 +27,11 @@ interface DataProvider extends Service {
     /**
      * Check if an entity exists in persistent storage.
      *
-     * Note: you can use the DataExistsProviderTrait to implement this method automatically,
+     * Note: you can use the ExistsProviderTrait to implement this method automatically,
      * based of get()
      *
      * @param PK $id the entity object to check for existence
-     * @return ServiceEntity|null the entity object if it exists, null otherwise
+     * @return bool whether the entity exists
      */
     public function exists($id): bool;
 }

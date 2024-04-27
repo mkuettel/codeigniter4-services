@@ -61,10 +61,12 @@ interface ServiceEntity {
      * This should be a no-op if the entity doesn't have a primary key, but may throw an error if something else
      * than null is passed in this case.
      *
-     * @param PrimaryKeyValue $val the new value(s) for the primary key field(s) and attribute(s) of this entity
+     * You are allowed to throw a ServiceException if you want to prevent the primary keys from being modified.
+     *
+     * @param PrimaryKeyValue $pkValue the new value(s) for the primary key field(s) and attribute(s) of this entity
      * @return void
      */
-    public function setPrimaryKeyValue(int|string|null $val): void;
+    public function setPrimaryKeyValue(int|string|null $pkValue): void;
 
     /**
      * Check if the entity has a primary key defined.
